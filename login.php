@@ -1,45 +1,41 @@
 <?php
-// Veritabanı bağlantısı
-$servername = "localhost";
+// MySQL bağlantı bilgilerinizi burada ayarlayın111
+$host = "localhost";
 $username = "root";
 $password = "";
-$dbname = "yavuzlar";
+$database = "yavuzlar";
 
-// Veritabanına bağlanma
-$conn = new mysqli($servername, $username, $password, $dbname);
+// Bağlantı oluşturma
+$connection = mysqli_connect($host, $username, $password, $database);
 
-// Bağlantıyı kontrol etme
-if ($conn->connect_error) {
-    die("Veritabanına bağlanırken hata oluştu: " . $conn->connect_error);
+// Bağlantı kontrolü
+if (mysqli_connect_errno()) {
+    die("Veritabanı bağlantısı başarısız: " . mysqli_connect_error());
 }
 
-// Giriş bilgilerini alın
+// Formdan gelen verileri alınması
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username = $_POST['username'];
-    $password = $_POST['password'];
+    $username = $_POST["username"];
+    $password = $_POST["password"];
 
-    // Kullanıcıyı veritabanında arayın
-    $sql = "SELECT * FROM users WHERE username = '$username'";
-    $result = $conn->query($sql);
+    // Kullanıcıyı veritabanında arama
+    $query = "SELECT * FROM kullanici_tablosu WHERE username = '$username'";
+    $result = mysqli_query($connection, $query);
 
-    if ($result->num_rows > 0) {    
-        // Kullanıcı adı mevcut, şifreyi kontrol edin
-        $row = $result->fetch_assoc();
-        if (password_verify($password, $row['password'])) {
-            // Başarılı giriş, yönlendir
-            header("Location: admin.html");
-            exit();
+    if (mysqli_num_rows($result) == 1) {
+        $user = mysqli_fetch_assoc($result);
+
+        // Şifre doğrulama
+        if (password_verify($password, $user['password'])) {
+            echo "Giriş başarılı! Hoş geldiniz, " . $username . ".";
         } else {
-            $error = "Hatalı şifre!";
+            echo "Hatalı kullanıcı adı veya şifre.";
         }
     } else {
-        $error = "Kullanıcı adı bulunamadı!";
+        echo "Hatalı kullanıcı adı veya şifre.";
     }
 }
 
-$conn->close();
-
-
-
-
+// Bağlantıyı kapatma
+mysqli_close($connection);
 ?>
