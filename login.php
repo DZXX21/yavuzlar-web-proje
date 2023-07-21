@@ -27,7 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $row = $result->fetch_assoc();
         if (password_verify($password, $row['password'])) {
             // Başarılı giriş, yönlendir
-            header("Location: welcome.php");
+            header("Location: admin.html");
             exit();
         } else {
             $error = "Hatalı şifre!";
