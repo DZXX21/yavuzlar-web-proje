@@ -1,9 +1,9 @@
 <?php
 // Veritabanı bağlantısı
-$servername = "localhost"; // Veritabanı sunucu adı (genellikle "localhost" olur)
-$username = "root"; // Veritabanı kullanıcı adı
-$password = ""; // Veritabanı kullanıcı parolası
-$dbname = "yavuzlar"; // Veritabanı adı
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "yavuzlar";
 
 // Veritabanına bağlanma
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -13,23 +13,33 @@ if ($conn->connect_error) {
     die("Veritabanına bağlanırken hata oluştu: " . $conn->connect_error);
 }
 
-// Kullanıcı adını alın
-$username = $_POST['username'];
+// Giriş bilgilerini alın
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $username = $_POST['username'];
+    $password = $_POST['password'];
 
-// Şifreyi alın ve güvenli bir şekilde şifreleyin (password_hash ile şifreleme)
-$password = $_POST['password'];
-$hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+    // Kullanıcıyı veritabanında arayın
+    $sql = "SELECT * FROM users WHERE username = '$username'";
+    $result = $conn->query($sql);
 
-// Admin kullanıcısını veritabanına ekleyin
-$sql = "INSERT INTO users (username, password) VALUES ('$username', '$hashedPassword')";
-
-if ($conn->query($sql) === TRUE) {
-    echo "Admin kullanıcısı başarıyla oluşturuldu.";
-} else {
-    echo "Hata: " . $sql . "<br>" . $conn->error;
+    if ($result->num_rows > 0) {
+        // Kullanıcı adı mevcut, şifreyi kontrol edin
+        $row = $result->fetch_assoc();
+        if (password_verify($password, $row['password'])) {
+            // Başarılı giriş, yönlendir
+            header("Location: welcome.php");
+            exit();
+        } else {
+            $error = "Hatalı şifre!";
+        }
+    } else {
+        $error = "Kullanıcı adı bulunamadı!";
+    }
 }
 
 $conn->close();
+
+
 
 
 ?>
