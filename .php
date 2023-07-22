@@ -8,7 +8,7 @@ $dbname = "yavuzlar";
 // Veritabanına bağlanma
 $conn = new mysqli($servername, $username, $password, $dbname);
 
-// Bağlantıyı kontrol etme
+// Bağlantıyı kontrol etme ve yükle
 if ($conn->connect_error) {
     die("Veritabanına bağlanırken hata oluştu: " . $conn->connect_error);
 }
