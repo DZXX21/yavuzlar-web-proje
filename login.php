@@ -1,5 +1,5 @@
 <?php
-// MySQL bağlantı bilgilerinizi burada ayarlayın111  21122121
+// MySQL bağlantı bilgilerinizi burada ayarlayın
 $host = "localhost";
 $username = "root";
 $password = "";
@@ -27,7 +27,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // Şifre doğrulama
         if (password_verify($password, $user['password'])) {
-            echo "Giriş başarılı! Hoş geldiniz, " . $username . ".";
+            // Giriş başarılıysa, admin_panel.php sayfasına yönlendirme
+            header("Location: admin_panel.php");
+            exit; // Yönlendirmeden sonra diğer işlemleri durdurmak için
         } else {
             echo "Hatalı kullanıcı adı veya şifre.";
         }
