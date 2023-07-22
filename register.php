@@ -28,7 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($result) {
         echo "Kullanıcı başarıyla kaydedildi.";
     } else {
-        echo "Kullanıcı kaydedilirken bir hata oluştu.";
+        echo "Kullanıcı kaydedilirken bir hata oluştu: " . mysqli_error($connection);
     }
 }
 

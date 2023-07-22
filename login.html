@@ -1,19 +1,29 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Giriş Sayfası</title>
-    <meta http-equiv="refresh" content="5;url=admin_panel.php">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Giriş Sayfası</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <div class="container">
     <h2>Giriş Yap</h2>
     <form action="login.php" method="post">
-        <label for="username">Kullanıcı Adı:</label>
-        <input type="text" id="username" name="username" required><br>
-
-        <label for="password">Şifre:</label>
-        <input type="password" id="password" name="password" required><br>
-
-        <input type="submit" value="Giriş Yap">
+      <div class="inputBox">
+        <input type="text" id="username" name="username" required>
+        <label for="username">Kullanıcı Adı</label>
+      </div>
+      <div class="inputBox">
+        <input type="password" id="password" name="password" required>
+        <label for="password">Şifre</label>
+      </div>
+      <input type="submit" value="Giriş Yap">
+      <div class="links">
+        <a href="#">Şifremi Unuttum</a>
+        <a href="#">Kayıt Ol</a>
+      </div>
     </form>
+  </div>
 </body>
 </html>
