@@ -1,5 +1,5 @@
 <?php
-// MySQL bağlantı bilgilerinizi burada ayarlayın111
+// MySQL bağlantı bilgilerinizi burada ayarlayın111  21122121
 $host = "localhost";
 $username = "root";
 $password = "";
