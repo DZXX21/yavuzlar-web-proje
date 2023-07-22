@@ -27,7 +27,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // Şifre doğrulama
         if (password_verify($password, $user['password'])) {
-            // Giriş başarılıysa, admin_panel.php sayfasına yönlendirme
+            // Giriş başarılıysa, oturumu başlat
+            session_start();
+            $_SESSION['username'] = $username;
             header("Location: admin_panel.php");
             exit; // Yönlendirmeden sonra diğer işlemleri durdurmak için
         } else {
@@ -41,3 +43,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 // Bağlantıyı kapatma
 mysqli_close($connection);
 ?>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Giriş Sayfası</title>
+    <!-- CSS dosyasını ekleyin -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h2>Giriş Yap</h2>
+    <form action="login.php" method="post">
+        <label for="username">Kullanıcı Adı:</label>
+        <input type="text" id="username" name="username" required><br>
+
+        <label for="password">Şifre:</label>
+        <input type="password" id="password" name="password" required><br>
+
+        <input type="submit" value="Giriş Yap">
+    </form>
+</body>
+</html>
